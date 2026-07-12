@@ -15,3 +15,7 @@ TIME_CMD="/usr/bin/time -a -o $RESOURCE_LOG --format='Command: %C\nElapsed Time:
 
 eval $TIME_CMD $BASH_CMD
 
+echo "Creating contig-to-bin files"
+conda deactivate
+conda activate das_tool
+${DASTOOL_PATH}/src/Fasta_to_Contig2Bin.sh -e fa -i ${RESULTS_DIR}/BIN > ${RESULTS_DIR}/contig_bins.tsv
