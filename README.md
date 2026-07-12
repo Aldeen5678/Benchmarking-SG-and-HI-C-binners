@@ -4,7 +4,7 @@ This repository contains the modules used to benchmark shotgun (SG) and Hi-C-bas
 
 ## Description
 
-The workflow preprocesses shotgun and Hi-C reads with MetaHiT, assembles the shotgun reads, aligns Hi-C reads to the assembly, and runs selected binning methods. The repository includes modules for COMEBin, MetaDecoder, SemiBin2, bin3C, MetaCC, ImputeCC, and MetaTOR, as well as MetaWRAP and MAGScoT for optional bin refinement. CheckM2 is used to assess resulting bin quality.
+We compared three Shot gun based binners: COMEBin, Semibin2 and Metadecoder with three Hi-C based binners: bin3c, Metacc and ImputeCC to evaluate bin quality of shot gun and Hi-C based datasets across five different environments- human gut, pig gut, wastewater, hydrothermal mats and bovine rumen.Three bin refinements: MAGScoT, Metawrap and DASTool were used to examine the overall improvement of MAG recovery.GTDBTK software was used to assess MAG taxonomy recovery across the binners and bin refinements tools.
 
 ## Getting Started
 
@@ -18,11 +18,7 @@ cd Benchmarking-SG-and-HI-C-binners
 chmod +x *.sh
 ```
 
-### Requirements
 
-Install MetaHiT and the tools required by the method(s) you plan to run: COMEBin, MetaDecoder, SemiBin2, bin3C, MetaCC, ImputeCC, MetaTOR, MetaWRAP, MAGScoT, DAS Tool, CheckM2, Prodigal, HMMER, and R.
-
-Several modules are written as Slurm jobs and assume Linux, Bash, Conda, and 80 CPU threads. Before running them, update the `#SBATCH` settings, Conda environment names, hard-coded paths, thread counts, and restriction enzymes to match your system and Hi-C library.
 
 ### 2. Preprocessing
 
