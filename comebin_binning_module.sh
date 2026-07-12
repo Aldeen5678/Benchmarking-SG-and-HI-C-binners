@@ -11,7 +11,7 @@ BASH_CMD="bash ${OUT}/COMEBin_SRC/bin/run_comebin.sh -a ${CONTIGS} -o ${OUT}/COM
 TIME_CMD="/usr/bin/time -a -o $RESOURCE_LOG --format='Command: %C\nElapsed Time: %E\nPeak RAM: %M KB\n'"
 
 eval $TIME_CMD $BASH_CMD
-rc=$?
+
 
 
 
