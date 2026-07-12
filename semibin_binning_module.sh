@@ -4,9 +4,6 @@ OUT=${1}
 MODEL=${4}
 
 
-rm -rf ${OUT}/output_bins
-rm  ${OUT}/contig_bins.tsv
-
 # Define a log file for resource usage
 RESOURCE_LOG="${OUT}/resource_usage.log"
 
