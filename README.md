@@ -18,7 +18,7 @@ cd Benchmarking-SG-and-HI-C-binners
 chmod +x *.sh
 ```
 
-
+Install METAHIT software using the following link https://github.com/dyxstat/METAHIT#installation
 
 ### 2. Preprocessing
 
@@ -34,8 +34,8 @@ Preprocess shotgun and Hi-C paired-end reads with `metahit_preprocessing.sh`.
 | `OUTPUT_PATH` | Output directory for preprocessed reads. |
 | `FORWARD_READS` | Read 1 FASTQ file. |
 | `REVERSE_READS` | Read 2 FASTQ file. |
-| `READ_TYPE` | Use `SG` for shotgun reads or `HC` for Hi-C reads. `HC` enables deduplication. |
-
+| `prefix` | Use `shotgun` for shotgun reads or `hi-c` for Hi-C reads. |
+| `dedup` enables deduplication. |
 Example:
 
 ```bash
@@ -46,7 +46,6 @@ Example:
   reads/hic_R1.fastq.gz reads/hic_R2.fastq.gz HC
 ```
 
-Use the cleaned shotgun read pair in the assembly step and the cleaned Hi-C read pair in the alignment or Hi-C binning steps.
 
 ### 3. Assembly
 
@@ -60,9 +59,9 @@ Assemble the cleaned shotgun reads with `metahit_assembly_module.sh`:
 | --- | --- |
 | `METAHIT_PROJECT_PATH` | Path to the MetaHiT installation. |
 | `OUTPUT_PATH` | Assembly output directory. |
-| `FORWARD_READS` | Cleaned shotgun read 1 file. |
-| `REVERSE_READS` | Cleaned shotgun read 2 file. |
-| `ASSEMBLER` | Assembler supported by your MetaHiT installation; it is passed as `--ASSEMBLER`. |
+| `FORWARD_READS` | Preprocessed shotgun read 1 file. |
+| `REVERSE_READS` | Preprocessed shotgun read 2 file. |
+| `ASSEMBLER` | `megahit` or `metaspades` -choose one assembler. |
 
 Example:
 
@@ -71,7 +70,6 @@ Example:
   /path/to/sg_clean_R1.fastq.gz /path/to/sg_clean_R2.fastq.gz megahit
 ```
 
-Set `CONTIGS` to the final assembly FASTA produced by MetaHiT before proceeding:
 
 ```bash
 CONTIGS=/path/to/final.contigs.fa
@@ -79,27 +77,27 @@ CONTIGS=/path/to/final.contigs.fa
 
 ### 4. Hi-C alignment
 
-Align cleaned Hi-C reads to the assembly using `metahit_alignment_module.sh`. This module includes Slurm directives, so submit it with `sbatch` on a Slurm cluster.
+Align cleaned Hi-C reads to the assembly using `metahit_alignment_module.sh`
 
 ```bash
-sbatch metahit_alignment_module.sh METAHIT_PROJECT_PATH OUTPUT_PATH CONTIGS FORWARD_READS REVERSE_READS ASSEMBLER
+./metahit_alignment_module.sh METAHIT_PROJECT_PATH OUTPUT_PATH CONTIGS FORWARD_READS REVERSE_READS 
 ```
-
+| Argument | Description |
+| --- | --- |
+| `METAHIT_PROJECT_PATH` | Path to the MetaHiT installation. |
+| `OUTPUT_PATH` | Assembly output directory. |
+| `FORWARD_READS` | Preprocessed shotgun read 1 file. |
+| `REVERSE_READS` | Preprocessed shotgun read 2 file. |
+ 
 Example:
 
 ```bash
-sbatch metahit_alignment_module.sh /path/to/MetaHiT results/alignment "$CONTIGS" \
-  /path/to/hic_clean_R1.fastq.gz /path/to/hic_clean_R2.fastq.gz megahit
-```
-
-Use the coordinate-sorted Hi-C BAM produced by MetaHiT in the BAM-based binning modules:
-
-```bash
-HIC_BAM=/path/to/hic_sorted.bam
+ ./metahit_alignment_module.sh /path/to/MetaHiT results/alignment "$CONTIGS" \
+  /path/to/hic_clean_R1.fastq.gz /path/to/hic_clean_R2.fastq.gz 
 ```
 
 ### 5. COMEBin
-
+Install COMEBin by following the 
 Run COMEBin with an assembly and a directory containing BAM files:
 
 ```bash
