@@ -1,18 +1,3 @@
-#!/bin/bash
-#SBATCH --job-name=aog_prodigal       # Job name
-#SBATCH --partition=compute1          # Partition
-#SBATCH --ntasks=1                    # Number of tasks (processes, always 1 for non-MPI jobs)
-#SBATCH --nodes=1                     # Numner of nodes (Alway 1 for non-MPI jobs)
-#SBATCH --cpus-per-task=80             # Cores per task
-#SBATCH --time=10:00:00               # Time limit (hh:mm:ss)
-#SBATCH --output=./logs/prodigal.log        # Standard output file, or system will create a output file if output is not specified.
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=aaron.gonzalez@utsa.edu #Job status (starting, finishing, etc) will be sent to this email address. 
-
-module load anaconda3
-#source $(conda info --base)/etc/profile.d/conda.sh
-conda activate magscot
-
 MAGSCOT_SRC=${1}
 OUT=${2}
 CONTIGS=${3}
@@ -76,11 +61,11 @@ fi
 
 	echo "Generating custom contig-to-bins for MAGScot processing..."
 
-	process_tsv $COMEBIN_CONTIG2BIN "comebin"
-	process_tsv $METACC_CONTIG2BIN "metacc"
-	process_tsv $IMPUTECC_CONTIG2BIN "imputecc"
+	process_tsv $BINNER1_CONTIG2BIN "comebin"
+	process_tsv $BINNER2_CONTIG2BIN "metacc"
+	process_tsv $BINNER3_CONTIG2BIN "imputecc"
 
-	cat  "preprocessed_comebin_$(basename "$COMEBIN_CONTIG2BIN")" "preprocessed_metacc_$(basename "$METACC_CONTIG2BIN")" "preprocessed_imputecc_$(basename "$IMPUTECC_CONTIG2BIN")" > magscot_contig_to_bins.tsv
+	cat  "preprocessed_comebin_$(basename "$BINNER1_CONTIG2BIN")" "preprocessed_metacc_$(basename "$BINNER2_CONTIG2BIN")" "preprocessed_imputecc_$(basename "$BINNER3_CONTIG2BIN")" > magscot_contig_to_bins.tsv
 
 
 Rscript ${MAGSCOT_SRC}/MAGScoT.R -i magscot_contig_to_bins.tsv --hmm out.hmm
@@ -90,8 +75,3 @@ cd /work/dulab/Shared/ablation_study_automated_scripts/magscot
 python ./magscot_bins.py --fasta ${CONTIGS} --ctg2bin "${OUT}/MAGScoT.refined.contig_to_bin.out" --outdir "${OUT}/FINAL_BINS"
 
 
-conda deactivate
-conda activate checkm2
-
-echo "Running CheckM2 on MAGScot generated bins..."
-checkm2 predict --threads 80 --input ${OUT}/FINAL_BINS --output-directory ${OUT}/checkm2 -x .fa
