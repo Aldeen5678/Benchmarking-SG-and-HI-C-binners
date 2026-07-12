@@ -268,3 +268,6 @@ Run CheckM2 on each binner's final bin directory. Use the file extension that ma
 checkm2 predict --threads 80 --input /path/to/bins \
   --output-directory /path/to/checkm2_output -x .fa
 ```
+License
+
+This project is licensed under the terms in the [LICENSE](LICENSE) file.
