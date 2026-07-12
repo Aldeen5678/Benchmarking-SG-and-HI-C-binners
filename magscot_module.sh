@@ -71,7 +71,7 @@ fi
 Rscript ${MAGSCOT_SRC}/MAGScoT.R -i magscot_contig_to_bins.tsv --hmm out.hmm
 
 echo "Generating MAGScot bins..."
-cd /work/dulab/Shared/ablation_study_automated_scripts/magscot
+cd /path/to/directory
 python ./magscot_bins.py --fasta ${CONTIGS} --ctg2bin "${OUT}/MAGScoT.refined.contig_to_bin.out" --outdir "${OUT}/FINAL_BINS"
 
 
