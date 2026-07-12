@@ -1,18 +1,3 @@
-#!/bin/bash
-#SBATCH --job-name=aog_metadecoder       # Job name
-#SBATCH --partition=compute1          # Partition
-#SBATCH --ntasks=1                    # Number of tasks (processes, always 1 for non-MPI jobs)
-#SBATCH --nodes=1                     # Numner of nodes (Alway 1 for non-MPI jobs)
-#SBATCH --cpus-per-task=80             # Cores per task
-#SBATCH --time=72:00:00               # Time limit (hh:mm:ss)
-#SBATCH --output=./logs/metadecoder.log        # Standard output file, or system will create a output file if output is not specified.
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=aaron.gonzalez@utsa.edu #Job status (starting, finishing, etc) will be sent to this email address. 
-
-module load anaconda3
-#source $(conda info --base)/etc/profile.d/conda.sh
-conda activate metadecoder_env
-
 OUTPUT_DIR=${2}
 DAS_TOOL_PATH=${1}
 BAM_FILE=${4}
@@ -20,9 +5,6 @@ CONTIGS=${3}
 
 cd $OUTPUT_DIR
 
-#RESOURCE_LOG="resource_usage.log"
-#echo "---  Metadecoder Resource Tracking ---" > $RESOURCE_LOG
-#TIME_CMD="/usr/bin/time -a -o $RESOURCE_LOG --format='Command: %C\nElapsed Time: %E\nPeak RAM: %M KB\n'"
 
 # Start timer for internal logging
 START_TIME=$(date +%s)
@@ -73,13 +55,4 @@ echo "Creating output_bins folder for FASTA files..."
 mkdir -p ./output_bins
 mv *.fasta output_bins/
 
-conda deactivate
-conda activate checkm2
 
-echo "Running CheckM2 on output_bins folder"
-checkm2 predict --threads 80 --input ./output_bins --output-directory ./checkm2  -x .fasta
-
-echo "Generating contig-to-bin file from output_bins..."
-conda deactivate
-conda activate das_tool
-${DAS_TOOL_PATH}/src/Fasta_to_Contig2Bin.sh -e fasta -i ./output_bins > ./contig_bins.tsv
