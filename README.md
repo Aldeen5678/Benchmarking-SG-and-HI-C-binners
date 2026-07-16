@@ -261,7 +261,7 @@ Example:
 The module generates proteins with Prodigal, runs HMMER and MAGScoT, creates FASTA bins in `FINAL_BINS/`, and assesses them with CheckM2. Update the hard-coded path to `magscot_bins.py` in the module before running.
 
 ### 14. Assess bin quality with CheckM2
-CheckM2 is installed by following the CheckM2 GitHub repository
+CheckM2 is installed by following the CheckM2 GitHub repository.  
 Run CheckM2 on each binner's or bin refinement's final bin directory. Use the file extension that matches the bins being assessed:
 
 ```bash
