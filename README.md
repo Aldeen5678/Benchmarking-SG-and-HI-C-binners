@@ -247,20 +247,34 @@ Example:
 Use MAGScoT to refine contig-to-bin assignments from BINNER1, BINNER2 and BINNER3:
 
 ```bash
-./magscot_module.sh MAGSCOT_SRC OUTPUT_PATH CONTIGS COMEBIN_CONTIG2BIN METACC_CONTIG2BIN IMPUTECC_CONTIG2BIN
+./magscot_module.sh MAGSCOT_SRC OUTPUT_PATH CONTIGS BINNER1_CONTIG2BIN BINNER2_CONTIG2BIN BINNER3_CONTIG2BIN
 ```
 
 Example:
 
 ```bash
 ./magscot_module.sh /path/to/MAGScoT results/magscot "$CONTIGS" \
-  /path/to/comebin_contig_bins.tsv /path/to/metacc_contig_bins.tsv \
-  /path/to/imputecc_contig_bins.tsv
+  /path/to/BINNER1_contig_bins.tsv /path/to/BINNER2_contig_bins.tsv \
+  /path/to/BINNER3_contig_bins.tsv
 ```
 
-The module generates proteins with Prodigal, runs HMMER and MAGScoT, creates FASTA bins in `FINAL_BINS/`, and assesses them with CheckM2. Update the hard-coded path to `magscot_bins.py` in the module before running.
+The module generates proteins with Prodigal, runs HMMER and MAGScoT, creates FASTA bins in `FINAL_BINS/`. Update the hard-coded path to `magscot_bins.py` in the module before running.
 
-### 14. Assess bin quality with CheckM2
+### 14.DASTool
+Install DASTool by following the
+
+```bash
+./das_tool_module.sh  OUTPUT_PATH CONTIGS BINNER1_CONTIG2BIN BINNER2_CONTIG2BIN BINNER3_CONTIG2BIN
+```
+Example:
+
+```bash
+./das_tool_module.sh  results/magscot "$CONTIGS" \
+  /path/to/BINNER1_contig_bins.tsv /path/to/BINNER2_contig_bins.tsv \
+  /path/to/BINNER3_contig_bins.tsv
+```
+
+### 15. Assess bin quality with CheckM2
 CheckM2 is installed by following the CheckM2 GitHub repository.  
 Run CheckM2 on each binner's or bin refinement's final bin directory. Use the file extension that matches the bins being assessed:
 
