@@ -42,10 +42,10 @@ Example:
 
 ```bash
 ./metahit_preprocessing.sh /path/to/MetaHiT results/sg_preprocessed \
-  reads/sg_R1.fastq.gz reads/sg_R2.fastq.gz SG
+  reads/sg_R1.fastq.gz reads/sg_R2.fastq.gz shotgun dedup
 
 ./metahit_preprocessing.sh /path/to/MetaHiT results/hic_preprocessed \
-  reads/hic_R1.fastq.gz reads/hic_R2.fastq.gz HC
+  reads/hic_R1.fastq.gz reads/hic_R2.fastq.gz hi-c dedup
 ```
 
 
@@ -74,7 +74,8 @@ Example:
 
 
 ```bash
-CONTIGS=/path/to/final.contigs.fa
+./metahit_assembly_module.sh /path/to/MetaHiT results/assembly \
+  /path/to/sg_clean_R1.fastq.gz /path/to/sg_clean_R2.fastq.gz metaspades
 ```
 
 ### 4. Hi-C alignment
@@ -90,6 +91,7 @@ Align cleaned Hi-C reads to the assembly using `metahit_alignment_module.sh`
 | `OUTPUT_PATH` | Assembly output directory. |
 | `FORWARD_READS` | Preprocessed shotgun read 1 file. |
 | `REVERSE_READS` | Preprocessed shotgun read 2 file. |
+| `CONTIGS` | Path to the assembled contigs.|
  
 Example:
 
@@ -154,7 +156,7 @@ Example:
 The module generates coverage and seed files, runs clustering, writes FASTA bins to `output_bins`, evaluates them with CheckM2, and creates `contig_bins.tsv` using DAS Tool.
 
 ### 8. MetaCC
-
+Install MetaCC by following the 
 
 
 ```bash
@@ -178,8 +180,8 @@ Example:
 The module uses `Sau3AI` by default. Change the `ENZYME` variable if your Hi-C library used a different enzyme. Results are written to `metacc_results/`, including `BIN/`, CheckM2 output, and `contig_bins.tsv`.
 
 ### 9. ImputeCC
-
-Prepare the contig-information file and Hi-C matrix required by ImputeCC, then run:
+Install ImputeCC by following the 
+Prepare the contig-information file and Hi-C matrix from MetaCC required by ImputeCC, then run:
 
 ```bash
 ./imputecc_module.sh IMPUTE_CC_PATH OUTPUT_PATH CONTIGS CONTIG_INFO HIC_MATRIX DAS_TOOL_PATH
@@ -195,7 +197,7 @@ Example:
 Results are written to `imputecc_results/`. The supplied module accepts `DASTOOL_PATH` but does not use it; create a compatible contig-to-bin table separately if you plan to pass ImputeCC output to MAGScoT.
 
 ### 10. MetaTOR
-
+Install Metator by following the 
 MetaTOR starts from the assembly and cleaned Hi-C FASTQ files:
 
 ```bash
@@ -224,8 +226,6 @@ Example:
 ```bash
 ./module_bin3c.sh results/bin3c "$CONTIGS" "$HIC_BAM"
 ```
-
-The module runs `mkmap` followed by `cluster`, writing the contact map to `contact_map/` and binning output to `final_bins/`. This implementation requires Python 2 and uses `Sau3AI` by default.
 
 ### 12. MetaWRAP refinement
 
