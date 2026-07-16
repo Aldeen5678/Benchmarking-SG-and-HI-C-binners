@@ -101,7 +101,7 @@ Example:
 ```
 
 ### 5. COMEBin
-Install COMEBin by following the 
+Install COMEBin by following the https://github.com/ziyewang/COMEBin#install-comebin-via-bioconda
 Run COMEBin with an assembly and a directory containing BAM files:
 
 ```bash
@@ -117,7 +117,7 @@ Example:
 The module writes COMEBin results to `OUTPUT_PATH/COMEBin_SRC/COMEBin` and records run time and peak RAM in `resource_usage.log`.
 
 ### 6. SemiBin2
-Install Semibin2 by following
+Install Semibin2 by following https://github.com/BigDataBiology/SemiBin#installation-with-conda
 Run SemiBin2 in `single_easy_bin` mode:
 
 ```bash
@@ -135,12 +135,12 @@ Example:
 | `OUTPUT_PATH` | Output directory. |
 | `CONTIGS` | Assembly FASTA file. |
 | `BAM_FILE` | Alignment BAM file. |
-| `MODEL` | SemiBin2 environment/model appropriate to the sample. |
+| `MODEL` | SemiBin2 model appropriate to the sample. |
 
 The module decompresses `output_bins` and removes the header from `contig_bins.tsv`.
 
 ### 7. MetaDecoder
-Install MetaDecoder by following the
+Install MetaDecoder by following the https://github.com/liu-congcong/MetaDecoder#installation
 
 
 ```bash
@@ -156,7 +156,7 @@ Example:
 The module generates coverage and seed files, runs clustering, writes FASTA bins to `output_bins`, evaluates them with CheckM2, and creates `contig_bins.tsv` using DAS Tool.
 
 ### 8. MetaCC
-Install MetaCC by following the 
+Install MetaCC by following the https://github.com/dyxstat/MetaCC#installation-guide
 
 
 ```bash
@@ -180,41 +180,40 @@ Example:
 The module uses `Sau3AI` by default. Change the `ENZYME` variable if your Hi-C library used a different enzyme. Results are written to `metacc_results/`, including `BIN/`, CheckM2 output, and `contig_bins.tsv`.
 
 ### 9. ImputeCC
-Install ImputeCC by following the 
+Install ImputeCC by following the https://github.com/dyxstat/ImputeCC#installation-guide
 Prepare the contig-information file and Hi-C matrix from MetaCC required by ImputeCC, then run:
 
 ```bash
-./imputecc_module.sh IMPUTE_CC_PATH OUTPUT_PATH CONTIGS CONTIG_INFO HIC_MATRIX DAS_TOOL_PATH
+./imputecc_module.sh IMPUTE_CC_PATH OUTPUT_PATH CONTIGS CONTIG_INFO HIC_MATRIX 
 ```
 
 Example:
 
 ```bash
 ./imputecc_module.sh /path/to/ImputeCC results/imputecc "$CONTIGS" \
-  /path/to/contig_info.csv /path/to/hic_matrix.npz /path/to/das_tool
+  /path/to/contig_info.csv /path/to/hic_matrix.npz 
 ```
 
-Results are written to `imputecc_results/`. The supplied module accepts `DASTOOL_PATH` but does not use it; create a compatible contig-to-bin table separately if you plan to pass ImputeCC output to MAGScoT.
 
 ### 10. MetaTOR
-Install Metator by following the 
+Install Metator by following the https://github.com/koszullab/metaTOR#installation
 MetaTOR starts from the assembly and cleaned Hi-C FASTQ files:
 
 ```bash
-./metator_module.sh DAS_TOOL_PATH OUTPUT_PATH CONTIGS FORWARD_READS REVERSE_READS
+./metator_module.sh  OUTPUT_PATH CONTIGS FORWARD_READS REVERSE_READS
 ```
 
 Example:
 
 ```bash
-./metator_module.sh /path/to/das_tool results/metator "$CONTIGS" \
+./metator_module.sh  results/metator "$CONTIGS" \
   /path/to/hic_clean_R1.fastq.gz /path/to/hic_clean_R2.fastq.gz
 ```
 
 The module currently uses `Sau3AI,MluCI`, 80 threads, a 50,000-bp size threshold, and `--start=fastq`. Update the environment `PATH` placeholder and enzyme setting before execution.
 
 ### 11. bin3C
-
+Install bin3c by following the 
 Set `BIN3C_PATH` in `module_bin3c.sh` to the location of `bin3C.py`, then run:
 
 ```bash
@@ -228,7 +227,7 @@ Example:
 ```
 
 ### 12. MetaWRAP refinement
-
+Install Metawrap by following the 
 Use MetaWRAP to refine bins from BINNER1, BINNER2, and BINNER3:
 
 ```bash
@@ -243,7 +242,7 @@ Example:
 ```
 
 ### 13. MAGScoT refinement
-
+Install MAGScoT by the following the 
 Use MAGScoT to refine contig-to-bin assignments from BINNER1, BINNER2 and BINNER3:
 
 ```bash
