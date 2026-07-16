@@ -34,18 +34,18 @@ Preprocess shotgun and Hi-C paired-end reads with `metahit_preprocessing.sh`.
 | `OUTPUT_PATH` | Output directory for preprocessed reads. |
 | `FORWARD_READS` | Read 1 FASTQ file. |
 | `REVERSE_READS` | Read 2 FASTQ file. |
-| `prefix` | Use `shotgun` for shotgun reads or `hi-c` for Hi-C reads. |
-| `dedup` enables deduplication. |
+| `READ_TYPE` | Use `SG` for shotgun reads or `HC` for Hi-C reads. |
+| `dedup` |enables deduplication for Hi-c reads. |
 
 
 Example:
 
 ```bash
 ./metahit_preprocessing.sh /path/to/MetaHiT results/sg_preprocessed \
-  reads/sg_R1.fastq.gz reads/sg_R2.fastq.gz shotgun dedup
+  reads/sg_R1.fastq.gz reads/sg_R2.fastq.gz SG
 
 ./metahit_preprocessing.sh /path/to/MetaHiT results/hic_preprocessed \
-  reads/hic_R1.fastq.gz reads/hic_R2.fastq.gz hi-c dedup
+  reads/hic_R1.fastq.gz reads/hic_R2.fastq.gz HC --dedup
 ```
 
 
