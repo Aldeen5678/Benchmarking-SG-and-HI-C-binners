@@ -18,7 +18,7 @@ cd Benchmarking-SG-and-HI-C-binners
 chmod +x *.sh
 ```
 
-Install METAHIT software using the following link https://github.com/dyxstat/METAHIT#installation
+Install METAHIT software using the following link https://github.com/dyxstat/METAHIT#installation for steps 2,3 and 4
 
 ### 2. Preprocessing
 
@@ -36,6 +36,8 @@ Preprocess shotgun and Hi-C paired-end reads with `metahit_preprocessing.sh`.
 | `REVERSE_READS` | Read 2 FASTQ file. |
 | `prefix` | Use `shotgun` for shotgun reads or `hi-c` for Hi-C reads. |
 | `dedup` enables deduplication. |
+
+
 Example:
 
 ```bash
@@ -113,7 +115,7 @@ Example:
 The module writes COMEBin results to `OUTPUT_PATH/COMEBin_SRC/COMEBin` and records run time and peak RAM in `resource_usage.log`.
 
 ### 6. SemiBin2
-
+Install Semibin2 by following
 Run SemiBin2 in `single_easy_bin` mode:
 
 ```bash
@@ -136,33 +138,33 @@ Example:
 The module decompresses `output_bins` and removes the header from `contig_bins.tsv`.
 
 ### 7. MetaDecoder
+Install MetaDecoder by following the
 
-Run MetaDecoder as a Slurm job:
 
 ```bash
-sbatch metadecoder_module.sh DAS_TOOL_PATH OUTPUT_PATH CONTIGS BAM_FILE
+./metadecoder_module.sh DAS_TOOL_PATH OUTPUT_PATH CONTIGS BAM_FILE
 ```
 
 Example:
 
 ```bash
-sbatch metadecoder_module.sh /path/to/das_tool results/metadecoder "$CONTIGS" "$HIC_BAM"
+./metadecoder_module.sh /path/to/das_tool results/metadecoder "$CONTIGS" "$HIC_BAM"
 ```
 
 The module generates coverage and seed files, runs clustering, writes FASTA bins to `output_bins`, evaluates them with CheckM2, and creates `contig_bins.tsv` using DAS Tool.
 
 ### 8. MetaCC
 
-Run MetaCC as a Slurm job:
+
 
 ```bash
-sbatch metacc_module.sh METACC_PATH OUTPUT_PATH CONTIGS BAM_FILE DASTOOL_PATH
+ ./metacc_module.sh METACC_PATH OUTPUT_PATH CONTIGS BAM_FILE DASTOOL_PATH
 ```
 
 Example:
 
 ```bash
-sbatch metacc_module.sh /path/to/MetaCC results/metacc "$CONTIGS" "$HIC_BAM" /path/to/das_tool
+./metacc_module.sh /path/to/MetaCC results/metacc "$CONTIGS" "$HIC_BAM" /path/to/das_tool
 ```
 
 | Argument | Description |
@@ -227,31 +229,31 @@ The module runs `mkmap` followed by `cluster`, writing the contact map to `conta
 
 ### 12. MetaWRAP refinement
 
-Use MetaWRAP to refine bins from COMEBin, ImputeCC, and MetaCC:
+Use MetaWRAP to refine bins from BINNER1, BINNER2, and BINNER3:
 
 ```bash
-sbatch metawrap_module.sh METAHIT_PROJECT_PATH OUTPUT_PATH COMEBIN_BIN_PATH IMPUTECC_BIN_PATH METACC_BIN_PATH
+./metawrap_module.sh METAHIT_PROJECT_PATH OUTPUT_PATH COMEBIN_BIN_PATH IMPUTECC_BIN_PATH METACC_BIN_PATH
 ```
 
 Example:
 
 ```bash
-sbatch metawrap_module.sh /path/to/MetaHiT results/metawrap \
+ ./metawrap_module.sh /path/to/MetaHiT results/metawrap \
   /path/to/comebin_bins /path/to/imputecc_bins /path/to/metacc_bins
 ```
 
 ### 13. MAGScoT refinement
 
-Use MAGScoT to refine contig-to-bin assignments from COMEBin, MetaCC, and ImputeCC:
+Use MAGScoT to refine contig-to-bin assignments from BINNER1, BINNER2 and BINNER3:
 
 ```bash
-sbatch magscot_module.sh MAGSCOT_SRC OUTPUT_PATH CONTIGS COMEBIN_CONTIG2BIN METACC_CONTIG2BIN IMPUTECC_CONTIG2BIN
+./magscot_module.sh MAGSCOT_SRC OUTPUT_PATH CONTIGS COMEBIN_CONTIG2BIN METACC_CONTIG2BIN IMPUTECC_CONTIG2BIN
 ```
 
 Example:
 
 ```bash
-sbatch magscot_module.sh /path/to/MAGScoT results/magscot "$CONTIGS" \
+./magscot_module.sh /path/to/MAGScoT results/magscot "$CONTIGS" \
   /path/to/comebin_contig_bins.tsv /path/to/metacc_contig_bins.tsv \
   /path/to/imputecc_contig_bins.tsv
 ```
@@ -259,8 +261,8 @@ sbatch magscot_module.sh /path/to/MAGScoT results/magscot "$CONTIGS" \
 The module generates proteins with Prodigal, runs HMMER and MAGScoT, creates FASTA bins in `FINAL_BINS/`, and assesses them with CheckM2. Update the hard-coded path to `magscot_bins.py` in the module before running.
 
 ### 14. Assess bin quality with CheckM2
-
-Run CheckM2 on each binner's final bin directory. Use the file extension that matches the bins being assessed:
+CheckM2 is installed by following the CheckM2 GitHub repository
+Run CheckM2 on each binner's or bin refinement's final bin directory. Use the file extension that matches the bins being assessed:
 
 ```bash
 checkm2 predict --threads 80 --input /path/to/bins \
