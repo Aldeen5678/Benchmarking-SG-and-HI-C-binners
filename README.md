@@ -127,7 +127,7 @@ Run SemiBin2 in `single_easy_bin` mode:
 Example:
 
 ```bash
-./semibin_binning_module.sh results/semibin "$CONTIGS" "$HIC_BAM" human_gut
+./semibin_binning_module.sh results/semibin "$CONTIGS" "$HIC_BAM" human_gut/pig_gut/wastewater/global
 ```
 
 | Argument | Description |
