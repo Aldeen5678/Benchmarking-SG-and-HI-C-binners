@@ -96,7 +96,7 @@ Align cleaned Hi-C reads to the assembly using `metahit_alignment_module.sh`
 Example:
 
 ```bash
- ./metahit_alignment_module.sh /path/to/MetaHiT results/alignment "$CONTIGS" \
+ ./metahit_alignment_module.sh /path/to/MetaHiT results/alignment path/to/final.contigs.fa \
   /path/to/hic_clean_R1.fastq.gz /path/to/hic_clean_R2.fastq.gz 
 ```
 
@@ -111,10 +111,9 @@ Run COMEBin with an assembly and a directory containing BAM files:
 Example:
 
 ```bash
-./comebin_binning_module.sh results/comebin "$CONTIGS" /path/to/bam_files
+./comebin_binning_module.sh results/comebin path/to/final.contigs.fa /path/to/sorted_map.bam
 ```
-
-The module writes COMEBin results to `OUTPUT_PATH/COMEBin_SRC/COMEBin` and records run time and peak RAM in `resource_usage.log`.
+The module writes COMEBin results to `OUTPUT_PATH/COMEBin_SRC/COMEBin`.
 
 ### 6. SemiBin2
 Install Semibin2 by following https://github.com/BigDataBiology/SemiBin#installation-with-conda
@@ -127,7 +126,7 @@ Run SemiBin2 in `single_easy_bin` mode:
 Example:
 
 ```bash
-./semibin_binning_module.sh results/semibin "$CONTIGS" "$HIC_BAM" human_gut/pig_gut/wastewater/global
+./semibin_binning_module.sh results/semibin path/to/final.contigs.fa path/to/sorted_map.bam human_gut/pig_gut/wastewater/global
 ```
 
 | Argument | Description |
@@ -177,7 +176,7 @@ Example:
 | `BAM_FILE` | Hi-C alignment BAM file. |
 | `DASTOOL_PATH` | Path to the DAS Tool installation. |
 
-The module uses `Sau3AI` by default. Change the `ENZYME` variable if your Hi-C library used a different enzyme. Results are written to `metacc_results/`, including `BIN/`, CheckM2 output, and `contig_bins.tsv`.
+The module uses `Sau3AI` by default. Change the `ENZYME` variable if your Hi-C library used a different enzyme
 
 ### 9. ImputeCC
 Install ImputeCC by following the https://github.com/dyxstat/ImputeCC#installation-guide
