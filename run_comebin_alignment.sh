@@ -1,8 +1,3 @@
-#!/usr/bin/bash
-
-
-# The following script runs the COMEBin binning process, which requires input contig files as well as aligned short-read sequences.
-# If aligned reads are not yet generated, the user may specify them using the parameter -a or --align_reads
 
 free_mem=$(free -h | awk '/^Mem:/ {print $4}')
 echo "[FREE MEMORY]: $free_mem"
