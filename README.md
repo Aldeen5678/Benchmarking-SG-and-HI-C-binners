@@ -99,11 +99,40 @@ Example:
  ./metahit_alignment_module.sh /path/to/MetaHiT results/alignment path/to/final.contigs.fa \
   /path/to/hic_clean_R1.fastq.gz /path/to/hic_clean_R2.fastq.gz 
 ```
-### 5.
+### 5.Short-read (SR) alignment
+
+Shot gun binners: COMEBin, Seminbin2 and Metadecoder requires an assembly and aligned shotgun short reads.Use `run_comebin_alignment.sh` to generate the coverage alignments for short read samples.
+
+```bash
+./run_comebin_alignment.sh -p COMEBIN_PROJECT_PATH -a CONTIGS -o OUTPUT_PATH \
+  -b BAM_OUTPUT_PATH -t THREADS -m MEMORY -f FORWARD_READS -r REVERSE_READS
+```
+
+| Option | Description |
+| --- | --- |
+| `-p` | Path to the COMEBin project directory that contains `gen_cov_file.sh`. |
+| `-a`, `--contigs` | Assembly FASTA file. |
+| `-o`, `--ouput` | Output directory used by the alignment helper. The long option is spelled `--ouput` in the supplied script. |
+| `-b`, `--bam` | Intended output path for aligned BAM files. |
+| `-t`, `--threads` | Number of alignment threads. |
+| `-m`, `--memory` | Memory setting. Note that the supplied script currently recalculates this value from system memory. |
+| `-f`, `--forward` | Shotgun read 1 FASTQ file. |
+| `-r`, `--reverse` | Shotgun read 2 FASTQ file. |
+
+Example:
+
+```bash
+./run_comebin_alignment.sh -p /path/to/COMEBin -a "$CONTIGS" \
+  -o results/sr_alignment -b results/comebin_alignment/bam \
+  -t 80 -m 128 -f /path/to/sg_clean_R1.fastq.gz \
+  -r /path/to/sg_clean_R2.fastq.gz
+```
+
+The script calls `gen_cov_file.sh` with the contigs, output path, memory setting, threads, and paired shotgun reads
 
 ### 6. COMEBin
-Install COMEBin by following the https://github.com/ziyewang/COMEBin#install-comebin-via-bioconda
-Run COMEBin with an assembly and a directory containing BAM files:
+Install COMEBin by following the https://github.com/ziyewang/COMEBin#install-comebin-via-bioconda.
+Run:
 
 ```bash
 ./comebin_binning_module.sh OUTPUT_PATH CONTIGS BAM_FILES_FOLDER
@@ -117,7 +146,7 @@ Example:
 The module writes COMEBin results to `OUTPUT_PATH/COMEBin_SRC/COMEBin`.
 
 ### 7. SemiBin2
-Install Semibin2 by following https://github.com/BigDataBiology/SemiBin#installation-with-conda
+Install Semibin2 by following https://github.com/BigDataBiology/SemiBin#installation-with-conda.
 Run SemiBin2 in `single_easy_bin` mode:
 
 ```bash
@@ -140,8 +169,8 @@ Example:
 The module decompresses `output_bins` and removes the header from `contig_bins.tsv`.
 
 ### 8. MetaDecoder
-Install MetaDecoder by following the https://github.com/liu-congcong/MetaDecoder#installation
-
+Install MetaDecoder by following the https://github.com/liu-congcong/MetaDecoder#installation.
+Run:
 
 ```bash
 ./metadecoder_module.sh DAS_TOOL_PATH OUTPUT_PATH CONTIGS BAM_FILE
@@ -157,7 +186,7 @@ The module generates coverage and seed files, runs clustering, writes FASTA bins
 
 ### 9. MetaCC
 Install MetaCC by following the https://github.com/dyxstat/MetaCC#installation-guide
-
+Run:
 
 ```bash
  ./metacc_module.sh METACC_PATH OUTPUT_PATH CONTIGS BAM_FILE DASTOOL_PATH
@@ -261,7 +290,7 @@ The module generates proteins with Prodigal, runs HMMER and MAGScoT, creates FAS
 
 ### 15.DASTool
 Install DASTool by following the
-
+Use DASTool to refine contig-to-bin assignments from BINNER1, BINNER2 and BINNER3:
 ```bash
 ./das_tool_module.sh  OUTPUT_PATH CONTIGS BINNER1_CONTIG2BIN BINNER2_CONTIG2BIN BINNER3_CONTIG2BIN
 ```
